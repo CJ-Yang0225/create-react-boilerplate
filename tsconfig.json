@@ -3,8 +3,8 @@
     "target": "ES5",
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,  // 允許編譯 js 檔案 (false 會有紅線)
-    "jsx": "react",
+    "allowJs": true, // 允許編譯 js 檔案 (false 會有紅線)
+    "jsx": "react-jsx",
     "isolatedModules": true,
     "strict": true,
 
