@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const WebpackBar = require('webpackbar');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const { resolve } = require('path');
 const path = require('path');
@@ -98,7 +100,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: resolve(PROJECT_PATH, './public/index.html'),
       filename: 'index.html',
-      cache: false,
+      cache: true,
       minify: isDev
         ? false
         : {
@@ -119,12 +121,26 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          context: resolve(PROJECT_PATH, './public'),
+          context: path.resolve(PROJECT_PATH, './public'),
           from: '*',
-          to: resolve(PROJECT_PATH, './dist'),
+          to: path.resolve(PROJECT_PATH, './dist'),
           toType: 'dir',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+            ignore: ['**/index.html'],
+          },
         },
       ],
+    }),
+    new WebpackBar({
+      name: isDev ? 'RUNNING' : 'BUILDING',
+      color: isDev ? '#52c41a' : '#722ed1',
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
+      },
     }),
   ],
 };
